@@ -1,0 +1,69 @@
+#include <iostream>
+using namespace std;
+
+// Fungsi untuk menggabungkan dua bagian array yang sudah terurut
+void merge(int arr[], int left, int mid, int right) {
+    int n1 = mid - left + 1; // Jumlah elemen di bagian kiri
+    int n2 = right - mid;    // Jumlah elemen di bagian kanan
+
+    // Membuat array sementara
+    int L[n1], R[n2];
+
+    // Menyalin data ke array sementara
+    for (int i = 0; i < n1; i++)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; j++)
+        R[j] = arr[mid + 1 + j];
+
+    // Menggabungkan kembali ke array utama
+    int i = 0, j = 0, k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k++] = L[i++];
+        } else {
+            arr[k++] = R[j++];
+        }
+    }
+
+    // Menyalin sisa elemen jika ada
+    while (i < n1)
+        arr[k++] = L[i++];
+    while (j < n2)
+        arr[k++] = R[j++];
+}
+
+// Fungsi utama Merge Sort
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int mid = left + (right - left) / 2;
+
+        // Urutkan bagian kiri dan kanan
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        // Gabungkan dua bagian yang telah diurutkan
+        merge(arr, left, mid, right);
+    }
+}
+
+// Fungsi untuk menampilkan array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int data[] = {38, 27, 43, 3, 9, 82, 10};
+    int n = sizeof(data) / sizeof(data[0]);
+
+    cout << "Array sebelum diurutkan:\n";
+    printArray(data, n);
+
+    mergeSort(data, 0, n - 1);
+
+    cout << "Array setelah diurutkan dengan Merge Sort:\n";
+    printArray(data, n);
+
+    return 0;
+}
