@@ -1,0 +1,59 @@
+#include <iostream>
+using namespace std;
+
+// Fungsi untuk menukar dua nilai
+void swap(int &a, int &b) {
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+// Fungsi partisi untuk membagi array
+int partition(int arr[], int low, int high) {
+    int pivot = arr[high]; // Pivot diambil dari elemen terakhir
+    int i = low - 1; // Indeks elemen yang lebih kecil
+
+    for (int j = low; j < high; j++) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+
+    swap(arr[i + 1], arr[high]);
+    return i + 1;
+}
+
+// Fungsi utama Quicksort
+void quickSort(int arr[], int low, int high) {
+    if (low < high) {
+        // Mendapatkan indeks partisi
+        int pi = partition(arr, low, high);
+
+        // Rekursi untuk bagian kiri dan kanan partisi
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Fungsi untuk menampilkan array
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int data[] = {10, 7, 8, 9, 1, 5};
+    int n = sizeof(data) / sizeof(data[0]);
+
+    cout << "Array sebelum diurutkan:\n";
+    printArray(data, n);
+
+    quickSort(data, 0, n - 1);
+
+    cout << "Array setelah diurutkan dengan Quicksort:\n";
+    printArray(data, n);
+
+    return 0;
+}
